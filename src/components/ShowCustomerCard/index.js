@@ -1,19 +1,21 @@
 import { View, Text, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import stylesFn from "./styles";
 
 export default function ShowCustomerCard({
   firstName,
   lastName,
   region,
-  onPress,
   customer,
 }) {
   const styles = stylesFn();
-  console.log(customer, "customer - showCustomerCard");
+  const { navigate } = useNavigation();
 
   return (
     <View style={styles.customerContainer}>
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity
+        onPress={() => navigate("Edit", { customerID: customer.id })}
+      >
         <Text style={styles.customerDetails}>First Name: {firstName}</Text>
         <Text style={styles.customerDetails}>Last Name: {lastName}</Text>
         <Text style={styles.customerDetails}>Region: {region}</Text>

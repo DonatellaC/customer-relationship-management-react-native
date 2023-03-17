@@ -1,17 +1,20 @@
 import React from "react";
 import { StyleSheet, View, TextInput } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import { useNewCustomer, useUpdateFields } from "../../features/hooks.js";
+import { useUpdateFields } from "../../features/hooks.js";
 import { Button } from "../../components/Button/Button";
 import regions from "../../utilities/regions";
 import formStyles from "./styles";
 
-const Form = ({ disabled = false }) => {
+const Form = ({ handleSubmit, customerID }) => {
   const styles = StyleSheet.create(formStyles());
-  const { onSubmit } = useNewCustomer();
-  const { fields, setFormField } = useUpdateFields();
+  const { fields, setFormField } = useUpdateFields(customerID);
 
   const { firstName, lastName, region, contact } = fields;
+
+  const onSubmit = () => {
+    handleSubmit();
+  };
 
   return (
     <View style={styles.container}>

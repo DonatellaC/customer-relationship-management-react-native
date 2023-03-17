@@ -26,7 +26,7 @@ const initialState = {
     message: "",
   },
   delete: {
-    status: "PENDING",
+    status: PENDING,
   },
 };
 
@@ -49,13 +49,18 @@ const reducers = {
   createNewCustomerReset: (state) => {
     state.create = initialState.create;
   },
+  updateForm: (state, { payload }) => {
+    state.form.fields = payload;
+  },
   setForm: (state, { payload }) => {
-    const customer = state.list.customers.find((a) => a.id === payload);
-
-    if (customer) {
-      state.form.fields = { ...customer };
+    const id = payload;
+    if (id) {
+      const customer = state.list.customers.find(
+        (customer) => customer.id === id
+      );
+      state.form.fields = customer;
     } else {
-      state.error.message = `Could not find customer with id: ${payload}`;
+      state.form.fields = initialState.form.fields;
     }
   },
   editCustomer: (state) => {
@@ -64,8 +69,6 @@ const reducers = {
   editCustomerResult: (state, { payload }) => {
     state.edit.status = SUCCESS;
     state.list.customers = payload;
-    state.form.fields = initialState.form.fields;
-    state.edit = initialState.edit;
   },
   editCustomerStatus: (state, { payload }) => {
     state.edit = payload;
@@ -73,7 +76,6 @@ const reducers = {
   editCustomerError: (state, { payload }) => {
     state.edit.status = ERROR;
     state.error.message = payload;
-    state.form.fields = initialState.form.fields;
   },
   deleteCustomers: (state) => {
     state.delete.status = "REQUESTING";
@@ -120,6 +122,7 @@ export const {
   editCustomerResult,
   editCustomerError,
   editCustomerStatus,
+  updateForm,
   setFormField,
   loadCustomers,
   loadCustomersResult,

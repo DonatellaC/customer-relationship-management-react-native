@@ -3,18 +3,18 @@ import * as actions from "../reducers";
 import { set } from "../../utilities/async_storage";
 
 export function* watchEditCustomer() {
-  yield takeLatest(actions.editCustomer.toString(), takeEditCustomer);
+  yield takeLatest(actions.editCustomer, takeEditCustomer);
 }
 
-export function* takeEditCustomer({ payload }) {
-  const customerId = payload;
+export function* takeEditCustomer(action) {
+  const customerID = action.payload;
   console.log("Starting fetch request to API");
   try {
     const fields = yield select((state) => state.customer.form.fields);
     const customers = yield select((state) => state.customer.list.customers);
 
     const updatedItems = customers.map((customer) =>
-      customer.id === customerId ? fields : customer
+      customer.id === customerID ? fields : customer
     );
 
     yield delay(500);

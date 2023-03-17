@@ -1,1 +1,0 @@
-# customer-relation-management-react-native

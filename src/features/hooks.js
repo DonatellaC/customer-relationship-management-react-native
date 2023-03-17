@@ -2,16 +2,23 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "./reducers";
 
-export const useUpdateFields = () => {
+export const useUpdateFields = (customerID = null) => {
   const dispatch = useDispatch();
-  const fields = useSelector((state) => state.customer.form.fields);
+  const { fields } = useSelector((state) => state.customer.form);
+  useEffect(() => {
+    if (customerID) {
+      dispatch(actions.setForm(customerID));
+    } else {
+      dispatch(actions.setForm(customerID));
+    }
+  }, [customerID]);
 
   return {
     fields,
     setFormField: (field) => (value) => {
       console.log(`Updating field ${field} to ${value}`);
 
-      dispatch(actions.setFormField({ field, value }));
+      dispatch(actions.updateForm({ ...fields, [field]: value }));
     },
   };
 };
@@ -29,16 +36,13 @@ export const useNewCustomer = () => {
 
 export const useEditCustomer = (customerID) => {
   const dispatch = useDispatch();
-  const status = useEditCustomerStatus();
+  const { status } = useSelector((state) => state.customer.edit);
 
   return {
     status,
-    onSubmit: (fields) => {
-      console.log(
-        `Dispatching EDIT_CUSTOMER action with id=${customerID}`,
-        fields
-      );
-      dispatch(actions.editCustomer({ id: customerID, ...fields }));
+    onSubmit: () => {
+      console.log(`Dispatching EDIT_CUSTOMER action with id=${customerID}`);
+      dispatch(actions.editCustomer(customerID));
     },
   };
 };
