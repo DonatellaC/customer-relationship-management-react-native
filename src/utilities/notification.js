@@ -1,5 +1,5 @@
 import { Keyboard } from "react-native";
-// import Constants from "expo-constants";
+import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
 
 export const onNotificationSubmit = () => {
@@ -28,6 +28,6 @@ export const handleNotification = () => {
 export const askNotification = async () => {
   // We need to ask for Notification permissions for ios devices
   const { status } = await Notifications.requestPermissionsAsync();
-  if (Device.isDevice && status === "granted")
+  if (Constants.isDevice && status === "granted")
     console.log("Notification permissions granted.");
 };
