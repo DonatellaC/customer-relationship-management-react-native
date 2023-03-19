@@ -3,6 +3,7 @@ import { View } from "react-native";
 import { Button } from "../../components/Button/Button";
 import { useDispatch } from "react-redux";
 import * as actions from "../../features/reducers";
+import { onNotificationSubmit } from "../../utilities/notification";
 
 export default function Welcome() {
   const { navigate } = useNavigation();
@@ -20,6 +21,12 @@ export default function Welcome() {
       ></Button>
       <Button onPress={() => navigate("Regions")} text="Go to Regions"></Button>
       <Button onPress={handleDeleteCustomer} text="Delete Database"></Button>
+      <Button
+        onPress={async () => {
+          await onNotificationSubmit();
+        }}
+        text="Schedule a notification"
+      ></Button>
     </View>
   );
 }
